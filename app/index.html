@@ -1,0 +1,37 @@
+<head>
+  <link href = "css/app.css" rel = "stylesheet" type = "text/css"/>
+</head>
+
+<body>
+  <div id = "title-box">
+    <h1>QuickCopy</h1>
+  </div>
+
+  <div class = "input-container">
+    <input type = "text" id = "path-input">
+    <button id = "submit-path">Enter path</button>
+    <p id = "path-p"></p>
+  </div>
+
+  <div class = "input-container">
+    <input type = "text" id = "filetype-input">
+    <button id = "submit-filetype">Specify File Ending</button>
+    <p id = "list-display"></p>
+    <ul id = "ft-list"></ul>
+
+    <!--
+    <input id = "remove-filetype-inp">
+    <button id = "remove-filetype-btn">Remove a filetype</button>
+    -->
+  </div>
+
+  <div class = "check-and-text-container">
+    <input type = "checkbox" id = "structured">
+    <p>Preserve file structure in backup</p>
+  </div>
+
+
+  <button id = "backup-button">Make Backup</button>
+
+  <script src = "js/index.js"></script>
+</body>
