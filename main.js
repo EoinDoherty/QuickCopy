@@ -1,6 +1,6 @@
 var electron = require('electron');
 var BrowserWindow = electron.BrowserWindow;
-var Menu = require('menu');
+var Menu = electron.Menu;
 var app = electron.app;
 var ipc = electron.ipcMain;
 var win = null;
@@ -11,12 +11,16 @@ app.on('ready', () => {
   var template = [{
     label: "QuickCopy",
     submenu:[
-      {label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+      {label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }},
+    ]},
+    {label: "Edit",
+    submenu:[
+
       {label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:"},
       {label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:"},
       {label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:"}
-    ]
-  }];
+    ]}
+  ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 

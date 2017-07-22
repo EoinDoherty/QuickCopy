@@ -36,14 +36,15 @@ function copyFile(source, destinationDir, filename){
   });
 }
 
+var folder = "";
+
 function makeNewBackup(startPath, filetypes, structured){
-  console.log(startPath + " " + filetypes + " " + structured);
-  console.log(__dirname);
-  //total = 10;
+  //console.log(startPath + " " + filetypes + " " + structured);
+  //console.log(__dirname);
 
   var directoryQueue = [startPath];
   var fileList = [];
-  console.log(filetypes.length);
+  //console.log(filetypes.length);
   //console.log(__dirname);
 
   if(filetypes.length > 0){
@@ -85,7 +86,7 @@ function makeNewBackup(startPath, filetypes, structured){
     var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
     //console.log(backUpFolder);
 
-    var numFolders = 1;
+    /*var numFolders = 1;
     var folderExists = fs.existsSync(backUpFolder);
 
     if(!folderExists){
@@ -99,12 +100,17 @@ function makeNewBackup(startPath, filetypes, structured){
           folderExists = false;
         }
       }
-    }
+    }*/
 
     backUpFolder += pth.sep;
 
+    folder = backUpFolder;
+
+    var dest = document.querySelector('#dest-p');
+    dest.innerHTML = "copying files to " + folder;
+
     total = fileList.length;
-    console.log(fileList);
+    //console.log(fileList);
 
     /*for(var i = 0; i < fileList.length; i++){
       var file = fileList[i].split(pth.sep);
@@ -149,6 +155,9 @@ increm.addEventListener('click', () => {
 
 progBarEmitter.on('update-bar', () => {
   numProcessed += 1;
+
+  var dest = document.querySelector('#dest-p');
+  dest.innerHTML = "copying files to " + folder;
 
   var percent = 100 * (numProcessed / total);
   var progBar = document.querySelector('#prog-bar');
