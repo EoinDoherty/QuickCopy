@@ -46,18 +46,3 @@ ipc.on('create-backup', (event, params) => {
     progWin.webContents.send('get-params', params);
   });
 });
-
-
-/*
-ipc.on('create-backup', (event, params) => {
-  win.loadURL('file://' + __dirname + '/app/progress-screen.html');
-
-  ipc.on('prog-screen-loaded', () => {
-    win.webContents.send('get-params', params);
-  });
-
-  ipc.on('close-prog-screen', () => {
-    win.loadURL('file://' + __dirname + '/app/index.html');
-  });
-});
-*/

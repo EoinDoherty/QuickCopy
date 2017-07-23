@@ -36,16 +36,10 @@ function copyFile(source, destinationDir, filename){
   });
 }
 
-var folder = "";
-
 function makeNewBackup(startPath, filetypes, structured){
-  //console.log(startPath + " " + filetypes + " " + structured);
-  //console.log(__dirname);
 
   var directoryQueue = [startPath];
   var fileList = [];
-  //console.log(filetypes.length);
-  //console.log(__dirname);
 
   if(filetypes.length > 0){
     for(var i = 0; i < filetypes.length; i++){
@@ -83,45 +77,14 @@ function makeNewBackup(startPath, filetypes, structured){
 
   if(fileList.length > 0){
     var time = new Date();
-    var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
-    //console.log(backUpFolder);
+    //var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
 
-    /*var numFolders = 1;
-    var folderExists = fs.existsSync(backUpFolder);
-
-    if(!folderExists){
-      fs.mkdirSync(backUpFolder);
-    }else{
-      while(folderExists){
-        var newName = backUpFolder + " " + numFolders;
-        if(!fs.existsSync(newName)){
-          fs.mkdirSync(newName);
-          backUpFolder = newName;
-          folderExists = false;
-        }
-      }
-    }*/
+    //NOTE: Backup folder is like this for the packaged macOS (.app) version, might break on other platforms
+    var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
 
     backUpFolder += pth.sep;
 
-    folder = backUpFolder;
-
-    var dest = document.querySelector('#dest-p');
-    dest.innerHTML = "copying files to " + folder;
-
     total = fileList.length;
-    //console.log(fileList);
-
-    /*for(var i = 0; i < fileList.length; i++){
-      var file = fileList[i].split(pth.sep);
-      console.log(backUpFolder + fileList[i].substring(startPath.length, fileList[i].length));
-      var dir = fileList[i].substring(startPath.length, fileList[i].length);
-      if(structured){
-        copyFile(fileList[i], backUpFolder + dir.substring(0,dir.length - file[file.length - 1].length), file[file.length - 1]);
-      }else{
-        copyFile(fileList[i], backUpFolder, file[file.length - 1]);
-      }
-    }*/
 
     while(fileList.length > 0){
       var fileListElem = fileList.shift();
@@ -140,24 +103,12 @@ function makeNewBackup(startPath, filetypes, structured){
   }
 }
 
-ipc.send('prog-screen-loaded');
 ipc.on('get-params', (event, params) => {
   makeNewBackup(params.path, params.filetypes, params.structured);
-  //makeNewBackup("/Users/eoin/Programming/Test/", params.filetypes, params.structured);
 });
-
-/*
-var increm = document.querySelector('#increment-prog-bar');
-increm.addEventListener('click', () => {
-  progBarEmitter.emit('update-bar');
-});
-*/
 
 progBarEmitter.on('update-bar', () => {
   numProcessed += 1;
-
-  var dest = document.querySelector('#dest-p');
-  dest.innerHTML = "copying files to " + folder;
 
   var percent = 100 * (numProcessed / total);
   var progBar = document.querySelector('#prog-bar');
