@@ -49,15 +49,53 @@ var fileTypes = [];
 
 var submitFiletype = document.querySelector('#submit-filetype');
 
+function appendFileType(ft){
+
+  var append = true;
+
+  if(ft === ""){
+    return;
+  }
+
+  if(ft[0] !== '.'){
+    ft = '.' + ft;
+  }
+
+  for(var i = 0; i < fileTypes.length; i++){
+    if(fileTypes[i] === ft){
+      append = false;
+      break;
+    }
+  }
+  if(append){
+    fileTypes.push(ft);
+    var ftList = document.querySelector('#ft-list');
+    var li = document.createElement('li');
+    li.setAttribute('id', "entry-" + ft.slice(1, ft.length));
+
+    li.innerHTML = ft;
+
+    var liButton = document.createElement('button');
+    liButton.setAttribute('id', 'button-' + ft.slice(1, ft.length));
+    liButton.setAttribute('class', 'ft-button');
+    liButton.innerHTML = "Remove";
+    li.appendChild(liButton);
+
+    ftList.appendChild(li);
+
+    prepButton(liButton, li, ft);
+  }
+}
+
 submitFiletype.addEventListener('click', () => {
   var filetypeInput = document.querySelector('#filetype-input');
 
   var entries = filetypeInput.value.split(' ');
 
   for(var i = 0; i < entries.length; i++){
-    var entry = entries[i];
+    appendFileType(entries[i]);
 
-    var append = true;
+    /*var append = true;
     if(entry == ""){
       append = false;
     }
@@ -66,14 +104,9 @@ submitFiletype.addEventListener('click', () => {
       entry = '.' + entry;
     }
 
-    for(var i = 0; i < fileTypes.length; i++){
-      if(fileTypes[i] === entry){
-        append = false;
-        break;
-      }
-    }
-
     if(append){
+      appendFileType(entry);
+
       fileTypes.push(entry);
       var ftList = document.querySelector('#ft-list');
       var li = document.createElement('li');
@@ -90,7 +123,8 @@ submitFiletype.addEventListener('click', () => {
       ftList.appendChild(li);
 
       prepButton(liButton, li, entry);
-    }
+
+    }*/
   }
 
   filetypeInput.value = "";
@@ -98,6 +132,17 @@ submitFiletype.addEventListener('click', () => {
 
 var filetypeInput = document.querySelector('#filetype-input');
 tieEnterToClick(filetypeInput, submitFiletype);
+
+var templateBtn = document.querySelector('#template-btn');
+templateBtn.addEventListener('click', () => {
+  ipc.send('open-temp-window');
+});
+
+ipc.on('send-temps-index', (event, ls) => {
+  for(var i = 0; i < ls.length; i++){
+    appendFileType(ls[i]);
+  }
+});
 
 var backupButton = document.querySelector('#backup-button');
 backupButton.addEventListener('click', () => {

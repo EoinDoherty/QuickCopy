@@ -1,0 +1,6 @@
+{
+  "tempsLs": [
+    {"title": "Documents", "contents": [".docx", ".doc", ".pdf"]},
+    {"title": "Photos", "contents": [".png", ".jpg", ".jpeg", ".gif", ".pdf"]}
+  ]
+}

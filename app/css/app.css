@@ -4,7 +4,7 @@ body{
   margin: 0;
 }
 
-#title-box{
+h1{
   background-color: #3585d4;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -27,13 +27,19 @@ button{
   margin-bottom: 1em;
 }
 
-ul{
+#ft-list{
   background-color: #e3e3e3;
   margin-left: 20%;
   margin-right: 20%;
 }
+
 li{
   list-style-type: none;
+}
+
+.temp-content{
+  display: inline;
+  margin-bottom: 1em;
 }
 
 .ft-button{

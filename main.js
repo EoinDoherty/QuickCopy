@@ -24,6 +24,7 @@ app.on('ready', () => {
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
+
   win = new BrowserWindow({
     height: 500,
     width: 500
@@ -32,6 +33,23 @@ app.on('ready', () => {
   win.loadURL('file://' + __dirname + '/app/index.html');
 });
 
+tempWin = null;
+
+ipc.on('open-temp-window', () => {
+  tempWin = new BrowserWindow({
+    height: 200,
+    width: 500
+  });
+
+  tempWin.loadURL('file://' + __dirname + '/app/templates.html');
+});
+
+ipc.on('send-temps-main', (event, ls) =>{
+  tempWin.close();
+  if(win != null){
+    win.webContents.send('send-temps-index', ls);
+  }
+});
 
 ipc.on('create-backup', (event, params) => {
   console.log(params);
