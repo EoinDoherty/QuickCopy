@@ -31,6 +31,10 @@ app.on('ready', () => {
   });
 
   win.loadURL('file://' + __dirname + '/app/index.html');
+  
+  win.on('closed', () => {
+	app.quit();
+  });
 });
 
 tempWin = null;
@@ -53,7 +57,7 @@ ipc.on('send-temps-main', (event, ls) =>{
 
 ipc.on('create-backup', (event, params) => {
   console.log(params);
-  progWin = new BrowserWindow({
+  var progWin = new BrowserWindow({
     height: 200,
     width: 500
   });
@@ -62,5 +66,9 @@ ipc.on('create-backup', (event, params) => {
 
   progWin.webContents.on('did-finish-load', () => {
     progWin.webContents.send('get-params', params);
+  });
+  
+  progWin.on('close', () => {
+	progWin = null;
   });
 });

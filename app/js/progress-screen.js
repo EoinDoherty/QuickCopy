@@ -77,11 +77,14 @@ function makeNewBackup(startPath, filetypes, structured){
 
   if(fileList.length > 0){
     var time = new Date();
-    //var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
+    var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
 
-    //NOTE: Backup folder is like this for the packaged macOS (.app) version, might break on other platforms
-    var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
-
+    if(process.platform == "darwin"){
+		backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
+	}else if(process.platform == "linux"){
+		backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
+	}
+	
     backUpFolder += pth.sep;
 
     total = fileList.length;
