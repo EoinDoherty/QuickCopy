@@ -31,7 +31,7 @@ app.on('ready', () => {
   });
 
   win.loadURL('file://' + __dirname + '/app/index.html');
-  
+
   win.on('closed', () => {
 	app.quit();
   });
@@ -67,7 +67,7 @@ ipc.on('create-backup', (event, params) => {
   progWin.webContents.on('did-finish-load', () => {
     progWin.webContents.send('get-params', params);
   });
-  
+
   progWin.on('close', () => {
 	progWin = null;
   });

@@ -80,11 +80,11 @@ function makeNewBackup(startPath, filetypes, structured){
     var backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
 
     if(process.platform == "darwin"){
-		backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
-	}else if(process.platform == "linux"){
-		backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
+		  backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
+	  }else if(process.platform == "linux"){
+      backUpFolder = __dirname + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + '..' + pth.sep + time;
 	}
-	
+
     backUpFolder += pth.sep;
 
     total = fileList.length;
@@ -97,7 +97,19 @@ function makeNewBackup(startPath, filetypes, structured){
       if(structured){
         copyFile(fileListElem, backUpFolder + dir.substring(0,dir.length - file[file.length - 1].length), file[file.length - 1]);
       }else{
-        copyFile(fileListElem, backUpFolder, file[file.length - 1]);
+
+        var filename = file[file.length - 1];
+        var i = 1;
+
+        var original = filename;
+        while(fs.existsSync(backUpFolder + filename)){
+          // Insert a number before file names to distinguish between duplicates
+          var dotPos = original.lastIndexOf('.');
+          filename = original.substring(0, dotPos) + '(' + i + ')' + original.substring(dotPos, original.length);
+          i += 1;
+        }
+
+        copyFile(fileListElem, backUpFolder, filename);
       }
     }
   }else{
