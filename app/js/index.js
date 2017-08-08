@@ -38,8 +38,13 @@ pathSubmit.addEventListener('click', () => {
   if(pathStr[0] != pth.sep){
     pathStr = pth.sep + pathStr;
   }
-  pathDisp.innerHTML = pathStr;
-  params.path = pathStr;
+
+  if(fs.existsSync(pathStr)){
+    pathDisp.innerHTML = pathStr;
+    params.path = pathStr;
+  }else{
+    alert("Specified path does not exist or is not a directory.");
+  }
 });
 
 var pathInput = document.querySelector('#path-input');
@@ -151,13 +156,9 @@ backupButton.addEventListener('click', () => {
   params.structured = structured;
   params.filetypes = fileTypes;
 
-  if(params.path.length > 1 && fs.existsSync(params.path) && fs.statSync(params.path).isDirectory()){
-    var pathDisp = document.getElementById('path-p');
-    var pathInp = document.getElementById('path-input');
-    pathDisp.innerHTML = "";
-    pathInp.value = "";
-    ipc.send('create-backup', params);
-  }else{
-    alert("Specified path does not exist");
-  }
+  var pathDisp = document.getElementById('path-p');
+  var pathInp = document.getElementById('path-input');
+  pathDisp.innerHTML = "";
+  pathInp.value = "";
+  ipc.send('create-backup', params);
 });
